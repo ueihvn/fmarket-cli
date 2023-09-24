@@ -4,9 +4,17 @@ const (
 	NewFundType     = "NEW_FUND"
 	TradingFundType = "TRADING_FUND"
 
-	DescSortOrder = "DESC"
-
 	defaultPageSize = 100
+
+	DescSortOrder                     = "DESC"
+	AnnualizedReturn36MonthsSortField = "annualizedReturn36Months"
+
+	NavTo1MonthsSortField  = "navTo1Months"
+	NavTo3MonthsSortField  = "navTo3Months"
+	NavTo6MonthsSortField  = "navTo6Months"
+	NavTo12MonthsSortField = "navTo12Months"
+	NavTo24MonthsSortField = "navTo24Months"
+	NavTo36MonthsSortField = "navTo36Months"
 )
 
 // FilterFundsRequestBuilder is a builder for FilterFundsRequest.
