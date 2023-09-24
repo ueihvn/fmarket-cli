@@ -4,27 +4,27 @@ import (
 	"context"
 	"testing"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestFmarketClient_FilterFunds(t *testing.T) {
+	t.Parallel()
 	client, err := NewFmarketClient()
 	if err != nil {
-		t.Errorf("want nil but got: %v", err)
+		require.NoError(t, err, "new fmarket client %v", err)
 	}
-	req := FilterFundsRequest{
-		Types: []string{
-			"NEW_FUND",
-			"TRADING_FUND",
-		},
-		Page:        1,
-		PageSize:    100,
-		SearchField: "",
-		SortOrder:   "DESC",
-	}
+	req := NewFilterFundsRequestBuilder().
+		SetPage(1).
+		SetPageSize(100).
+		SetSortOrder(DescSortOrder).
+		SetTypes([]string{NewFundType, TradingFundType}).
+		SetSortField(AnnualizedReturn36MonthsSortField).
+		Build()
 	res, err := client.FilterFunds(context.TODO(), &req)
 	if err != nil {
-		t.Errorf("want nil but got: %v", err)
+		require.NoError(t, err, "filter funds with req: %+v %v", req, err)
 	}
-	log.Info(res)
+	assert.NotEqual(t, res.Total, 0)
+	assert.NotEqual(t, len(res.Rows), 0)
 }
